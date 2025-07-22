@@ -1,0 +1,108 @@
+import pandas as pd
+data=pd.read_csv('Body Dissatisfaction and Compulsive Exercise.csv')
+data.head(1)
+
+col_names=[]
+for col in data.columns:
+    #print(col)
+    col_names.append(col)
+#print(col_names)
+
+a=data['I_couldn_t_seem_to_e_itive_feeling_at_all']
+b=data['I_found_it_difficult_tiative_to_do_things']
+c=data['I_felt_that_I_had_no_g_to_look_forward_to']
+d=data['I_felt_down_hearted_and_blue']
+e=data['I_was_unable_to_beco_astic_about_anything']
+f=data['I_felt_I_wasn_t_worth_much_as_a_person']
+g=data['I_felt_that_life_was_meaningless']
+
+a=list(a)
+b=list(b)
+c=list(c)
+d=list(d)
+e=list(e)
+f=list(f)
+g=list(g)
+
+dic={'dep1':a,'dep2':b,'dep3':c,'dep4':d,'dep5':e,'dep6':f,'dep7':g}
+#print(dic)
+datam=pd.DataFrame(dic)
+datam
+
+
+
+def separate_rows():
+    rows_are=[]
+    for index,row in datam.iterrows():
+        r=len(row)
+        #print(r)
+        a=[]
+        for i in range(r):
+            a.append(row[i])
+        rows_are.append(a)
+    return rows_are
+separate_rows()
+#print(separate_rows())
+
+def sum_rows_or_total_score():
+    rows=separate_rows()
+    summ=[]
+    for i in range(len(rows)):
+        s=sum(rows[i])
+        summ.append(s)
+    return summ
+sum_rows_or_total_score()
+#print(sum_rows_or_total_score())
+
+def columns():
+    r=separate_rows()
+    cols=[]
+    for i in range(len(r[0])):
+        a=[]
+        for j in range(len(r)):
+            a.append(r[j][i])
+        cols.append(a)
+    return cols
+columns()
+#print(columns())
+
+def cov_columns():
+    cols=columns()
+    var=[]
+    for i in range(len(cols)):
+        mean=sum(cols[i])/(len(cols[i]))
+        c=[]
+        for j in range(len(cols[i])):
+            va=(cols[i][j]-mean)**2
+            c.append(va)
+        ss=sum(c)/(len(c)-1)  
+        ss=round(ss,2)
+        var.append(ss)
+    return var
+cov_columns()
+#print(cov_columns())
+
+def var_of_total_scores():
+    var=[]
+    x=sum_rows_or_total_score()
+    for i in range(len(x)):
+        mean=sum(x)/len(x)
+        v=(x[i]-mean)**2
+        va=round(v,3)
+        var.append(va)
+    variance=round(sum(var)/(len(x)-1),3)
+    return variance
+var_of_total_scores()
+#print(var_of_total_scores())
+
+
+def alpha():
+    a=var_of_total_scores()
+    b=sum(cov_columns())
+    k=len(columns())
+    alpha=(k/(k-1))*(1-(b/a))
+    alpha=round(alpha,2)
+    print("alpha=",alpha)
+    return alpha
+alpha()
+    
