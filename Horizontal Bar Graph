@@ -1,0 +1,42 @@
+import pandas as pd
+data=pd.read_csv("Student Attitude and Behavior.csv")
+data.head(2)
+
+correlation1 = round(data['Height(CM)'].corr(data['college mark']),2)
+correlation2 = round(data['Weight(KG)'].corr(data['college mark']),2)
+correlation3 = round(data['10th Mark'].corr(data['college mark']),2)
+correlation4 = round(data['12th Mark'].corr(data['college mark']),2)
+correlation5 = round(data['salary expectation'].
+                     corr(data['college mark']),2)
+
+#print(correlation1,correlation2,correlation3,correlation4)
+
+features=['Height(CM)','Weight(KG)','10th Mark',
+          '12th Mark','salary expectation']
+correlational_value=[correlation1,correlation2,
+                     correlation3,correlation4,correlation5]
+#print(correlational_value)
+
+
+#Descending order of List Element in Python
+descending=[]
+for i in range(len(correlational_value)):
+    maxi=max(correlational_value)
+    descending.append(maxi)
+    correlational_value.remove(maxi)
+print(descending)
+
+corr_value=descending
+
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+
+plt.figure(figsize=(10,6))
+sns.barplot(x=corr_value,y=features,palette='viridis')
+plt.title("Correlation of features with College Mark")
+plt.xlabel("Correlation coefficient")
+plt.ylabel("Features")
+plt.tight_layout()
+plt.show()
