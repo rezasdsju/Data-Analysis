@@ -1,0 +1,18 @@
+import matplotlib.pyplot as plt
+
+score=[20,25,25,26,28,29,30,32,33,37,56]
+
+
+
+fsize=plt.figure(figsize=(6,3))
+
+ploting=plt.boxplot(score,patch_artist=True,widths=0.1)
+
+
+for median in ploting['medians']:
+    median.set_color('black')
+    median.set_linewidth(1)
+    
+
+plt.ylabel('Score')
+plt.show()
