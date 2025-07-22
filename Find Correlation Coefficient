@@ -1,0 +1,47 @@
+x=[1,2,3,4,5,6]
+y=[2,4,7,9,12,14]
+n=len(x)
+sum_x=sum(x)
+sum_y=sum(y)
+
+sumx_into_sum_y=sum_x*sum_y
+#print(sumx_into_sum_y)
+
+a=[]
+for i in range(len(x)):
+    o=x[i]*y[i]
+    a.append(o)
+#print(a)
+
+sum_x_into_y=sum(a)
+#print(sum_x_into_y)
+
+s_square=[]
+for i in range(len(x)):
+    square=x[i]
+    sq=square**2
+    s_square.append(sq)
+#print(s_square)
+
+sum_x_square=sum(s_square)
+#print(sum_x_square)
+
+y_square=[]
+for i in range(len(y)):
+    sqr=y[i]
+    sq=sqr**2
+    y_square.append(sq)
+#print(y_square)
+
+sum_y_square=sum(y_square)
+#print(sum_y_square)
+
+numerator=n*sum_x_into_y-sum_x*sum_y
+#print(numerator)
+
+import math
+denominator=math.sqrt((n*sum_x_square-sum_x**2)*(n*sum_y_square-sum_y**2))
+#print(denominator)
+
+corrwlation_coefficient=round(numerator/denominator,4)
+print(corrwlation_coefficient)  
