@@ -1,0 +1,67 @@
+import numpy as np
+A = np.array([
+    [-1020.71, 88.42, 5.6, -28.35, -6.27],
+    [88.42, -838.82, 12.24, -3.14, -3.49],
+    [5.6, 12.24, -411.01, 68.04, 95.6],
+    [-28.35, -3.14, 68.04, -92.5, 73.62],
+    [-6.27, -3.49, 95.6, 73.62, -84.16]
+])
+
+# Compute eigenvalues and eigenvectors
+eigenvalues, eigenvectors = np.linalg.eig(A)
+
+# Display results
+print("Eigenvalues:\n", eigenvalues)
+print("\nEigenvectors (columns):\n", eigenvectors)
+
+# PCA finding Part
+max_eval = max(eigenvalues)
+print(max_eval)
+
+x = []
+for i in range(len(eigenvalues)):
+    if np.isclose(eigenvalues[i], max_eval):  
+        for j in range(5):
+            a = eigenvectors[j][i]
+            a = round(a, 4)
+            x.append(a)
+print(x)
+
+max_egv = max(x, key=lambda k: abs(k))  
+print(max_egv)
+
+feature = ['Height(CM)', 'Weight(KG)', 
+           '10th Mark', '12th Mark', 'college mark']
+a = []
+for i in range(5):
+    if abs(x[i]) == abs(max_egv): 
+        a.append(feature[i])
+
+print('PCA-1 (most contributing feature):', a) 
+
+# Finding second PC
+
+th = list(eigenvalues)
+th.remove(max_eval) 
+
+second_max_eval = max(th)
+print(second_max_eval)
+
+d = []
+for i in range(5):
+    if np.isclose(eigenvalues[i], second_max_eval): 
+        for j in range(5):
+            s = eigenvectors[j][i]
+            s = round(s, 4)
+            d.append(s)
+print(d)
+
+max_for_pca2 = max(d, key=lambda k: abs(k)) 
+print(max_for_pca2)
+
+b = []
+for i in range(5):
+    if abs(d[i]) == abs(max_for_pca2): 
+        b.append(feature[i])
+
+print('PCA-2:', b)
