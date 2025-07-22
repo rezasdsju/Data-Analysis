@@ -1,0 +1,25 @@
+import matplotlib.pyplot as plt
+
+Male_score=[23,45,89,56,34,21,10,45,67,23,56,54,37,29,17,40,42,63]
+Female_score=[108,45,95,5,34,61,10,100,34,23,42,54,56,29,17,59,12,165]
+
+
+data_box=[Male_score,Female_score]
+
+
+fsize=plt.figure(figsize=(6,3))
+axis=fsize.add_axes([0,0,1,1])
+ploting=axis.boxplot(data_box,patch_artist=True,widths=0.5)
+
+
+for median in ploting['medians']:
+    median.set_color('black')
+    median.set_linewidth(1)
+    
+    
+axis.set_xticklabels(['Male','Female'])
+
+
+plt.xlabel('Gender')
+plt.ylabel('Score')
+plt.show()   
