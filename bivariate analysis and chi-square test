@@ -1,0 +1,197 @@
+#Bivariate Analysis
+import pandas as pd
+data=pd.read_csv('Body Dissatisfaction and Compulsive Exercise.csv')
+data.head(1)
+
+c_1 = input('Input Target Feature Name (e.g. Body Dissatisfaction): ')
+c_2 = input('Input Second Feature Name (e.g. Age): ')
+
+def x_list():
+    x=list(data[c_1])
+    return x
+def y_list():
+    y=list(data[c_2])
+    return y
+
+def column_elements():
+    list_name1=x_list()
+    a=[]
+    for i in list_name1:
+        if i not in a:
+            a.append(i)    
+    return a
+def column2_elements():
+    list_name2=y_list()
+    b=[]
+    for i in list_name2:
+        if i not in b:
+            b.append(i)
+    return b
+def x_elements():
+    x_element=column_elements()
+    return x_element
+
+def y_elements():
+    y_element=column2_elements()
+    return y_element
+
+def ub():
+    x=x_list()
+    y=y_list()
+    y_sums_list=[]
+    yy=y_elements()
+    for i in yy:
+        y_sums_list_parttions=[]
+        xx=x_elements()
+        col=column_elements()
+        for k in range(len(col)):
+            y_sum=0
+            for j in range(len(x)):
+                if col[k]==x[j]:
+                    if y[j]==i:
+                        y_sum+=1
+            y_sums_list_parttions.append(y_sum)
+        y_sums_list.append(y_sums_list_parttions)
+    return y_sums_list
+def total_percent_dataframe():
+    ind=ub()
+    yy=y_elements()
+    xx=x_elements()
+    muta=[]
+    for j in range(len(ind)):
+        summi=sum(ind[j])
+        muta_1=[]
+        for i in range(len(ind[0])):
+            percen1=(ind[j][i]/summi)*100
+            percen1=round(percen1,2)
+            print(f"Total and percent of {yy[j]} vs {xx[i]}: {ind[j][i]}({percen1}%)")
+            wow=ind[j][i]
+            muta_1.append(wow)    
+        muta.append(muta_1)
+    hel=[]
+    jjj=[]                               
+    for i in range(len(muta[0])):
+        hhh=[]
+        tel=[]
+        df_col_first=[]
+        for j in range(len(muta)):
+            target=muta[j][i]
+            tar=df_col_first.append(yy[j])
+            tel.append(target)
+        hhh.append(xx[i])  
+        tel=tuple(tel)
+        hhh.append(tel)
+        hel.append(hhh)   
+    dic=dict(hel)
+    df=pd.DataFrame(dic)
+    return df
+output=total_percent_dataframe()
+print(output)
+print('\n')
+
+
+
+
+#Chi Square Test
+data=output
+data
+
+def row_val():
+    a=[]
+    for index,row in data.iterrows():
+        for i in range(len(row)):
+            new_i=i
+            #print(i)
+        aa=[]    
+        for h in range(new_i+1):
+            x=row[h]
+            aa.append(x)
+        a.append(aa)
+    #print('rows are:',a)
+    return a
+row_val()
+
+def sum_of_rows():
+    ss=[]
+    a=row_val()
+    for i in range(len(a)):
+        sum_row=sum(a[i])
+        ss.append(sum_row)
+    #print('sum of rows:',ss)
+    return ss
+sum_of_rows()
+def column_val():
+    ee=[]
+    a=row_val()
+    for i in range(len(a[0])):
+        e=[]
+        for j in range(len(a)):
+            sb=a[j][i]
+            #print('s:',sb)
+            e.append(sb)
+        ee.append(e)
+    #print("column:",ee)
+    return ee
+column_val()
+
+def sum_column():
+    sss=[]
+    ee=column_val()
+    for i in range(len(ee)):
+        sum_row=sum(ee[i])
+        sss.append(sum_row)
+    #print('sum of columns:',sss)
+    return sss
+sum_column()
+
+def total_sum():
+    sss=sum_column()
+    t_sum=sum(sss)
+    #print('total sum:',t_sum)
+    return t_sum
+total_sum()
+def expected_value():
+    yy=[]
+    ss=sum_of_rows()
+    sss=sum_column()
+    t_sum=total_sum()
+    for i in range(len(ss)):
+        y=[]
+        for j in range(len(sss)):
+            k=(ss[i]*sss[j])/t_sum
+            #print(k)
+            y.append(k)
+        yy.append(y)
+    #print("table of expected value:",yy)
+    return yy
+expected_value()
+def chisquare():
+    chi_list=[]
+    a=row_val()
+    yy=expected_value()
+    for i in range(len(a)):
+        for j in range(len(yy)-1):
+            chi=(a[i][j]-yy[i][j])**2/yy[i][j]
+            chi=round(chi,2)
+            #print(chi)
+            chi_list.append(chi)
+    #print(chi_list)
+    #print(len(chi_list))
+    return chi_list
+chisquare()
+
+def sum_chi_square():
+    chi_list=chisquare()
+    sum_chi=sum(chi_list)
+    sum_chi=round(sum_chi,2)
+    print("Chi Square Calculated:",sum_chi)
+    return sum_chi
+sum_chi_square()
+
+def degree_of_freedom():
+    a=row_val()
+    ee=column_val()
+    degree_of_freedom=(len(a)-1)*(len(ee)-1)
+    print("degree_of_freedom:",degree_of_freedom) 
+    return degree_of_freedom
+degree_of_freedom()
