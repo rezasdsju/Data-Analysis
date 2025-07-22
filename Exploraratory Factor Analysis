@@ -1,0 +1,102 @@
+dic={'student id':['A','B','C','D'],
+    'q1':[4,3,2,5],
+    'q2':[4,3,2,5],
+    'q3':[5,3,2,5],
+    'q4':[4,4,3,5],
+    'q5':[5,3,2,4]}
+import pandas as pd
+data=pd.DataFrame(dic)
+data
+
+def hi_rows():
+    rowss=[]
+    for index,row in data.iterrows():
+        x=len(row)
+        r=[]
+        for i in range(1,x):
+            r.append(row[i])
+        rowss.append(r)
+    return rowss
+hi_rows()
+
+def hi_cols():
+    col_elmnt=hi_rows()
+    col=[]
+    for i in range(len(col_elmnt[0])):
+        cc=[]
+        for j in range(len(col_elmnt)):
+            cc.append(col_elmnt[j][i])
+        col.append(cc)
+    return col
+hi_cols()
+
+import math
+def mean_and_std_z_score():
+    col=hi_cols()
+    st=[]
+    z_score=[]
+    for i in range(len(col)):
+        mean_val=sum(col[i])/len(col[i])
+        d=0
+        for j in range(len(col[i])):
+            d=d+(col[i][j]-mean_val)**2
+        std=round(math.sqrt(d/(len(col[0])-1)),2)
+        st.append(std)
+        z_sc=[]
+        for j in range(len(col[i])):
+            z=(col[i][j]-mean_val)/std
+            z=round(z,3)
+            z_sc.append(z)
+        z_score.append(z_sc)
+    #print(st)    
+    return z_score
+mean_and_std_z_score()
+
+def corr_matrix():
+    c=mean_and_std_z_score()
+    ccc=[]
+    for i in range(len(c)):
+        cc=[]
+        for j in range(len(c)):
+            x=c[i]
+            n=len(x)
+            y=c[j]
+            sum_x=sum(x)
+            sum_y=sum(y)
+            xy=0
+            x_square=0
+            y_square=0
+            for k in range(len(x)):
+                x_square=x_square+(x[k])**2
+                y_square=y_square+(y[k])**2
+                xy=xy+x[k]*y[k]
+            r=(n*xy-sum_x*sum_y)/(math.sqrt((n*x_square-sum_x**2)*(n*y_square-sum_y**2)))
+            r=round(r,2)
+            cc.append(r)
+        ccc.append(cc)
+    return ccc
+
+corr_matrix()  
+
+import numpy as np
+def eigen():
+    matrix=corr_matrix()
+    eigenvalues,eigenvectors=np.linalg.eig(matrix)
+    e_val=np.round(eigenvalues,3)
+    e_vect=np.round(eigenvectors,3)
+    return e_val,e_vect
+eigen()
+
+def loading_factor():
+    x,y=eigen()
+    maxi=max(x)
+    sqrt_maxi=round(math.sqrt(maxi),2)
+    #print(sqrt_maxi)
+    loading_factor_pc_1=[]
+    for i in range(len(x)):
+        if maxi==x[i]:
+            for j in range(len(y)):
+                loading_factor_pc_1.append(y[j][i])
+        
+    return loading_factor_pc_1
+loading_factor()
