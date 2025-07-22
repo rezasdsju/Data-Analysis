@@ -1,0 +1,98 @@
+#Bivariate Analysis
+import pandas as pd
+data=pd.read_csv('Body Dissatisfaction and Compulsive Exercise.csv')
+data.head(1)
+
+c_1 = input('Input Target Feature Name (e.g. Body Dissatisfaction): ')
+c_2 = input('Input Second Feature Name (e.g. Age): ')
+
+def x_list():
+    x=list(data[c_1])
+    return x
+def y_list():
+    y=list(data[c_2])
+    return y
+
+def column_elements():
+    list_name1=x_list()
+    a=[]
+    for i in list_name1:
+        if i not in a:
+            a.append(i)     
+    return a
+def column2_elements():
+    list_name2=y_list()
+    b=[]
+    for i in list_name2:
+        if i not in b:
+            b.append(i)   
+    return b
+
+
+
+def x_elements():
+    x_element=column_elements()
+    return x_element
+
+def y_elements():
+    y_element=column2_elements()
+    return y_element
+
+def ub():
+    x=x_list()
+    y=y_list()
+    y_sums_list=[]
+    yy=y_elements()
+    for i in yy:
+        y_sums_list_parttions=[]
+        xx=x_elements()
+        col=column_elements()
+        for k in range(len(col)):
+            y_sum=0
+            for j in range(len(x)):
+                if col[k]==x[j]:
+                    if y[j]==i:
+                        y_sum+=1
+            y_sums_list_parttions.append(y_sum)
+        y_sums_list.append(y_sums_list_parttions)
+    return y_sums_list
+
+def total_percent_dataframe():
+    ind=ub()
+    yy=y_elements()
+    xx=x_elements()
+    muta=[]
+    for j in range(len(ind)):
+        summi=sum(ind[j])
+        muta_1=[]
+        for i in range(len(ind[0])):
+            percen1=(ind[j][i]/summi)*100
+            percen1=round(percen1,2)
+            print(f"Total and percent of {yy[j]} vs {xx[i]}: {ind[j][i]}({percen1}%)")
+            wow=f"{ind[j][i]}({percen1}%)"
+            muta_1.append(wow)    
+        muta.append(muta_1)
+    hel=[]
+    jjj=[]
+    for i in range(len(muta[0])):
+        hhh=[]
+        tel=[]
+        df_col_first=[]
+        for j in range(len(muta)):
+            target=muta[j][i]
+            tar=df_col_first.append(yy[j])
+            tel.append(target)   
+        hhh.append(xx[i])  
+        tel=tuple(tel)
+        hhh.append(tel)
+        hel.append(hhh)   
+    dic=dict(hel)
+    df=pd.DataFrame(dic)
+    #print('yy',yy)
+    df = pd.DataFrame(dic, index=yy)
+    df.index.name= c_2
+    df.columns = pd.MultiIndex.from_product([[c_1], df.columns])
+    print('\n',f"Title: {c_1} VS {c_2}\n")
+    return df
+output=total_percent_dataframe()
+output
