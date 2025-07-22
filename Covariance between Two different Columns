@@ -1,0 +1,41 @@
+import pandas as pd
+data=pd.read_csv('Student Attitude and Behavior.csv')
+data.columns=data.columns.str.strip()
+data.head(1)
+
+x=[]
+for i in range(len(data['Gender'])):
+    rows=data.iloc[i]
+    for col_name,value in rows.items():
+        if isinstance(value,(int,float)):
+            if col_name not in x:
+                x.append(col_name)
+x
+
+y=data[x]
+y
+y.dropna()
+
+import numpy as np
+mean_h=np.mean(data['Height(CM)'])
+mean_w=np.mean(data['Weight(KG)'])
+mean_10th=np.mean(data['10th Mark'])
+mean_12th=np.mean(data['12th Mark'])
+mean_c=np.mean(data['college mark'])
+
+
+#print(mean_h,mean_w,mean_10th,mean_12th,mean_c)
+
+#cov_12
+x=list(data['Height(CM)'])
+y=list(data['Weight(KG)'])
+
+sum_val=0
+for i in range(len(x)):
+    a=(x[i]-mean_h)
+    b=(y[i]-mean_w)
+    sum_val=sum_val+a*b
+#print(sum_val)
+
+cov12=round(sum_val/(len(x)-1),2)
+cov12    
